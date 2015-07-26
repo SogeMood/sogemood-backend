@@ -11,4 +11,4 @@ script: py.test
 notifications:
   email: 
     - maxime@werlen.fr
-    - caillolj@gmail.com
+    #- caillolj@gmail.com
