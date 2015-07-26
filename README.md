@@ -2,6 +2,10 @@
 ## Presentation
 This project is SogeMood Python Backend (API).
 
+## Run this project
+
+  * Run the project locally with ``~/path/to/python/sdk/google_appengine/dev_appserver.py sogemood_api.py``
+
 ## Contributions
 You are welcome to contribute to this project, send your pull-requests.
 
