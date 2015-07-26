@@ -4,7 +4,8 @@ This project is SogeMood Python Backend (API).
 
 ## Run this project
 
-  * Run the project locally with ``~/path/to/python/sdk/google_appengine/dev_appserver.py sogemood_api.py``
+  * Run the project locally with ``~/path/to/python/sdk/google_appengine/dev_appserver.py path/to/sogemood-backend``
+  * Deploy on AppEngine with ``~/path/to/python/sdk/google_appengine/appcfg.py update path/to/sogemood-backend``
   
 ## Automated tests
 
