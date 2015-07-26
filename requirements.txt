@@ -1,0 +1,2 @@
+# List Python required libraries
+pytest
