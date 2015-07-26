@@ -5,6 +5,10 @@ This project is SogeMood Python Backend (API).
 ## Run this project
 
   * Run the project locally with ``~/path/to/python/sdk/google_appengine/dev_appserver.py sogemood_api.py``
+  
+## Automated tests
+
+[![Build Status](https://travis-ci.org/SogeMood/sogemood-backend.svg?branch=master)](https://travis-ci.org/SogeMood/sogemood-backend)
 
 ## Contributions
 You are welcome to contribute to this project, send your pull-requests.
