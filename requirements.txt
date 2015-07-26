@@ -1,2 +1,3 @@
 # List Python required libraries
 pytest
+protorpc
