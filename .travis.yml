@@ -8,7 +8,8 @@ before_script:
   - wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.24.zip -nv
   - unzip -q google_appengine_1.9.24.zip
 script: py.test tests
-notifications:
-  email: 
-    - maxime@werlen.fr
+# On laisse faire Travis qui n'envoie un mail qu'au commiter :)
+#notifications:
+  #email:
+    #- maxime@werlen.fr
     #- caillolj@gmail.com
