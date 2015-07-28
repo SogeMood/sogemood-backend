@@ -5,4 +5,4 @@ import user
 
 class Team(ndb.Model):
     name = ndb.StringProperty()
-    users = ndb.KeyProperty(user.User)
+    users = ndb.StructuredProperty(user.User, repeated=True)

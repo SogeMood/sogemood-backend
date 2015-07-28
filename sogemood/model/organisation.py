@@ -8,5 +8,5 @@ import team
 class Organisation(ndb.Model):
     # id is the organisation code
     name = ndb.StringProperty()
-    admins_uid = ndb.StringProperty(repeated=True)
-    teams = ndb.StructuredProperty(team.Team, repeated=True)
+    admins_mail = ndb.StringProperty(repeated=True)
+    teams = ndb.KeyProperty(team.Team, repeated=True)

@@ -5,7 +5,7 @@ as well as those methods defined in an API.
 """
 
 import endpoints
-from sogemood.api.secured import organisation_api, team_api
+from sogemood.api.secured import organisation_api
 from sogemood.api.public import helloworld_api
 
 package = 'SogeMood'
@@ -15,6 +15,5 @@ APPLICATION = endpoints.api_server([
     helloworld_api.HelloWorldApi,
 
     #Secured
-    organisation_api.OrganisationsApi,
-    team_api.TeamsApi
+    organisation_api.OrganisationsApi
 ])
