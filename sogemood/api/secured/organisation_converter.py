@@ -1,5 +1,5 @@
 from sogemood.messages.organisationMessage import OrganisationMessage, TeamMessage, UserMessage, \
-    OrganisationCollectionMessage
+    OrganisationCollectionMessage, TeamCollectionMessage
 
 
 class OrganisationConverter():
@@ -15,6 +15,11 @@ class OrganisationConverter():
             admins=organisationModel.admins_mail
         )
         return message
+
+    def convert_team_collection(self, teams):
+        return TeamCollectionMessage(
+            teams=map(self.convert_team, teams)
+        )
 
     def convert_team(self, teamModel):
         message = TeamMessage(
