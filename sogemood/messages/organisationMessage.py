@@ -1,6 +1,6 @@
 __author__ = 'mwerlen'
 
-from protorpc import messages
+from userMessage import *
 
 
 class CreateOrganisationMessage(messages.Message):
@@ -8,19 +8,18 @@ class CreateOrganisationMessage(messages.Message):
     code = messages.StringField(2, required=True)
 
 
-class CreateTeamOrganisation(messages.Message):
+class CreateTeamMessage(messages.Message):
     name = messages.StringField(1, required=True)
 
 
-class UserMessage(messages.Message):
-    name = messages.StringField(1)
-    mail = messages.StringField(2)
-    active = messages.BooleanField(3)
+class AddUserMessage(messages.Message):
+    mail = messages.StringField(1, required=True)
 
 
 class TeamMessage(messages.Message):
     name = messages.StringField(1)
-    users = messages.MessageField(UserMessage, 2, repeated=True)
+    users = messages.StringField(2, repeated=True)
+    id = messages.IntegerField(3)
 
 
 class TeamCollectionMessage(messages.Message):

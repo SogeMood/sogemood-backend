@@ -1,8 +1,8 @@
 from google.appengine.ext import ndb
 
-import user
+import sogemooduser
 
 
 class Team(ndb.Model):
     name = ndb.StringProperty()
-    users = ndb.StructuredProperty(user.User, repeated=True)
+    users_mail = ndb.StringProperty(repeated=True)

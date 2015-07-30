@@ -5,15 +5,17 @@ as well as those methods defined in an API.
 """
 
 import endpoints
-from sogemood.api.secured import organisation_api
+
+from sogemood.api.secured import organisation_api, user_api
 from sogemood.api.public import helloworld_api
 
 package = 'SogeMood'
 
 APPLICATION = endpoints.api_server([
-    #Public
+    # Public
     helloworld_api.HelloWorldApi,
 
-    #Secured
-    organisation_api.OrganisationsApi
+    # Secured
+    organisation_api.OrganisationsApi,
+    user_api.UsersApi
 ])

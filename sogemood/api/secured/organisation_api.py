@@ -1,14 +1,18 @@
+import uuid
+
 import endpoints
 from protorpc import message_types
 from protorpc import remote
 from protorpc import messages
 
+from google.appengine.ext import ndb
+
 from sogemood.api.securedApi import secured_api
-from organisation_converter import OrganisationConverter
+from sogemood.api.secured.converters.organisation_converter import OrganisationConverter
 from sogemood.messages import organisationMessage
 from sogemood.model.organisation import Organisation
 from sogemood.model.team import Team
-from sogemood.model.user import User
+from sogemood.model.sogemooduser import SogeMoodUser
 
 
 @secured_api.api_class(resource_name='organisation', path='organisations')
@@ -45,7 +49,7 @@ class OrganisationsApi(remote.Service):
         organisation.put()
         return OrganisationConverter().convert_organisation(organisation)
 
-    ADD_TEAM_RESOURCE = endpoints.ResourceContainer(organisationMessage.CreateTeamOrganisation,
+    ADD_TEAM_RESOURCE = endpoints.ResourceContainer(organisationMessage.CreateTeamMessage,
                                                     code_organisation=messages.StringField(2, required=True))
 
     @endpoints.method(ADD_TEAM_RESOURCE, organisationMessage.TeamMessage,
@@ -61,10 +65,12 @@ class OrganisationsApi(remote.Service):
             parent=organisation.key
         )
         team.put()
+        organisation.teams.append(team.key)
+        organisation.put()
         return OrganisationConverter().convert_team(team)
 
     LIST_TEAM_RESOURCE = endpoints.ResourceContainer(message_types.VoidMessage,
-                                                    code_organisation=messages.StringField(2, required=True))
+                                                     code_organisation=messages.StringField(2, required=True))
 
     @endpoints.method(LIST_TEAM_RESOURCE, organisationMessage.TeamCollectionMessage,
                       path='{code_organisation}/teams', http_method='GET',
@@ -77,10 +83,24 @@ class OrganisationsApi(remote.Service):
         if organisation is None:
             raise endpoints.BadRequestException("Organisation %s does not exists" % request.code_organisation)
         if current_user.email() not in organisation.admins_mail:
-            user = User.query(User.mail == current_user.email()).get()
-            teams = Team.query(Team.users == user, ancestor=organisation.key).fetch()
-            if user is None:
-                raise endpoints.UnauthorizedException(message="This is none of your business !")
+            teams = Team.query(Team.users_mails == current_user.email(), ancestor=organisation.key).fetch()
         else:
             teams = Team.query(ancestor=organisation.key).fetch()
         return OrganisationConverter().convert_team_collection(teams)
+
+    ADD_USER_RESOURCE = endpoints.ResourceContainer(organisationMessage.AddUserMessage,
+                                                    code_organisation=messages.StringField(3, required=True),
+                                                    team_id=messages.IntegerField(4, required=True))
+
+    @endpoints.method(ADD_USER_RESOURCE, organisationMessage.TeamMessage,
+                      path='{code_organisation}/teams/{team_id}', http_method='POST',
+                      name='team.add_user')
+    def add_member_to_team(self, request):
+        if request.mail is None:
+            raise endpoints.BadRequestException(message="User's email is mandatory")
+        team = Team.get_by_id(request.team_id, parent=ndb.Key(Organisation, request.code_organisation))
+        if team is None:
+            raise endpoints.BadRequestException(message="No such team")
+        team.users_mail.append(request.mail)
+        team.put()
+        return OrganisationConverter().convert_team(team)
